@@ -1,6 +1,7 @@
 #  mongodb://localhost:27017 local
 
-from flask import Flask, render_template
+from urllib import request
+from flask import Flask, render_template, request
 app = Flask(__name__)
 from pymongo import MongoClient
 import json
@@ -29,8 +30,11 @@ def get_sample():
     # which is not supported by json by default.
 
 
-@app.route('/dashboard/')
+@app.route('/dashboard', methods=["POST"])
 def dashborad():
+    # getting the variables
+    name = request.form.get('name')
+    
     return render_template("dashboard.html")
 
 
