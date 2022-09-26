@@ -5,6 +5,8 @@ app = Flask(__name__)
 from pymongo import MongoClient
 import json
 from bson import json_util
+# importing user routes
+from user import routes
 
 
 
