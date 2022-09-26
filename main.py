@@ -1,11 +1,12 @@
 #  mongodb://localhost:27017 local
 
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
-import pymongo
 from pymongo import MongoClient
 import json
 from bson import json_util
+
+
 
 # creating local connection
 client = MongoClient('mongodb://localhost:27017/')
@@ -15,7 +16,7 @@ collection = database['TODOs']
 
 @app.route('/')
 def hello():
-    return "working may"
+    return render_template("home.html")
 
 
 @app.route('/sample')
@@ -24,6 +25,16 @@ def get_sample():
     return json.dumps(get_one, default=json_util.default)
     # json.dumps return error since the data return is bson and it has values of type ObjectId 
     # which is not supported by json by default.
+
+
+@app.route('/dashboard/')
+def dashborad():
+    return render_template("dashboard.html")
+
+
+
+
+
 
 # @app.route("task/<tast_name>/<description>")
 # def add_task(task_name, description):
