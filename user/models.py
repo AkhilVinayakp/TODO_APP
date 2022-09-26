@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 import uuid
-from config import logging
+from passlib.hash import pbkdf2_sha256
 
 class User:
     def sign_up(self):
@@ -21,6 +21,8 @@ class User:
         }
         self._email = self._user.get('email')
         self._name = self._user.get('name')
+        # encrypting the user password.
+        self._user['password'] = pbkdf2_sha256.encrypt(self._user['password'])
         return jsonify(self._user), 200    
     
     @property
