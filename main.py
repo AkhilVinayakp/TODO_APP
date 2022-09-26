@@ -1,5 +1,6 @@
 #  mongodb://localhost:27017 local
 
+import email
 from urllib import request
 from flask import Flask, render_template, request
 app = Flask(__name__)
@@ -8,6 +9,9 @@ import json
 from bson import json_util
 # importing user routes
 from user import routes
+import logging
+from user.models import User
+from config import logging
 
 
 
@@ -32,10 +36,16 @@ def get_sample():
 
 @app.route('/dashboard', methods=["POST"])
 def dashborad():
-    # getting the variables
-    name = request.form.get('name')
-    
-    return render_template("dashboard.html")
+    app.logger.info("form validation success.")
+    # name = request.form.get('name')
+    # email = request.form.get('email')
+    # password = request.form.get('password')
+    user = User()
+    value, status_code = user.sign_up()
+    app.logger.debug(value)
+    name = user.get_user_name
+    return render_template("dashboard.html", user_name = name)
+
 
 
 
