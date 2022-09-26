@@ -41,8 +41,7 @@ def dashborad():
     # email = request.form.get('email')
     # password = request.form.get('password')
     user = User()
-    value, status_code = user.sign_up()
-    app.logger.debug(value)
+    user.sign_up()
     name = user.get_user_name
     return render_template("dashboard.html", user_name = name)
 
