@@ -1,9 +1,16 @@
+from this import d
 from flask import Flask, jsonify, request
 import uuid
 from passlib.hash import pbkdf2_sha256
-from main import database
+from pymongo import MongoClient
+
 
 class User:
+    
+    def __init__(self) -> None:
+        self._mongoclient =  MongoClient('mongodb://localhost:27017/')
+        self._database = self._mongoclient['Sample']
+        self._user_collection = self._database['todo_users']
     def sign_up(self):
         '''
             Returns:
@@ -25,7 +32,7 @@ class User:
         self._user['password'] = pbkdf2_sha256.encrypt(self._user['password'])
         # inserting documents
         try: 
-            database['todo_users'].insert_one(self._user)
+           self._user_collection.insert_one(self._user)
         except Exception as e:
             return 400
         return 100    

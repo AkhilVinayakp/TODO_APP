@@ -6,17 +6,17 @@ from flask import Flask, render_template, redirect, url_for
 from pymongo import MongoClient
 import json
 from bson import json_util
-# importing user routes
-from user import routes
 import logging
 from config import logging
 import time
+from user.routes import client_actions
 
 
 app = Flask(__name__)
+# registering the blueprint
+app.register_blueprint(client_actions, url_preffix= "")
 
-
-# creating local connection
+# creating local connection. only for testing.
 client = MongoClient('mongodb://localhost:27017/')
 # setting the collection.
 database = client['Sample']
