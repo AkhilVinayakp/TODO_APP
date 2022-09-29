@@ -1,5 +1,5 @@
 from this import d
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session, redirect
 import uuid
 from passlib.hash import pbkdf2_sha256
 from pymongo import MongoClient
@@ -11,6 +11,16 @@ class User:
         self._mongoclient =  MongoClient('mongodb://localhost:27017/')
         self._database = self._mongoclient['Sample']
         self._user_collection = self._database['todo_users']
+
+    def _create_session(self):
+        '''creating session upon sucessfull sign in'''
+        session['logged_in'] = True
+        del self._user['password']
+        session['user'] = self._user
+        return 200
+    
+
+
     def sign_up(self):
         '''
             Returns:
@@ -35,7 +45,7 @@ class User:
            self._user_collection.insert_one(self._user)
         except Exception as e:
             return 400
-        return 100    
+        return self._create_session()
     
     @property
     def get_user_name(self):

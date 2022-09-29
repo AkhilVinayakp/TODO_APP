@@ -15,6 +15,7 @@ from user.routes import client_actions
 app = Flask(__name__)
 # registering the blueprint
 app.register_blueprint(client_actions, url_preffix= "")
+app.secret_key = b'\xd8\x11\x8f\xb9\xbb\x05\xec\x90\xac\x0b\xbb\t\x0f'
 
 # creating local connection. only for testing.
 client = MongoClient('mongodb://localhost:27017/')
